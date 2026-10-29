@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbit — Automate the busywork</title>
+<meta name="description" content="Orbit connects your tools and automates repetitive work, so small teams ship like big ones.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F7FB;--card:#fff;--ink:#12142B;--mute:#5E6280;--line:#E3E4EF;--v:#6C4CF1;--m:#18D6A5;--hero:#12142B;
+--d:'Fraunces',Georgia,serif;--b:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+[data-theme=dark]{--bg:#0B0C1A;--card:#14162B;--ink:#EEF0FF;--mute:#9A9EC4;--line:#262A4A;--hero:#07081A}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:var(--b);background:var(--bg);color:var(--ink);line-height:1.6;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--m);outline-offset:3px;border-radius:6px}
+.w{width:min(1120px,92%);margin-inline:auto}
+h1,h2,h3{font-family:var(--d);letter-spacing:-.02em;line-height:1.1}
+h2{font-size:clamp(2rem,4.5vw,3rem);font-weight:800}
+.sub{color:var(--mute);max-width:56ch;margin:.9rem 0 0;font-size:1.08rem}
+.btn{display:inline-block;border:0;border-radius:12px;padding:.8rem 1.4rem;font-weight:700;transition:transform .2s,box-shadow .2s,background .2s}
+.p{background:var(--v);color:#fff}.p:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(108,76,241,.45)}
+.g{background:transparent;border:1.5px solid var(--line)}.g:hover{border-color:var(--v)}
+.m{background:var(--m);color:#07281F}.m:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(24,214,165,.4)}
+#bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--m);z-index:99}
+header{position:fixed;inset:0 0 auto;z-index:50;transition:.3s}
+header.s{background:color-mix(in srgb,var(--hero) 92%,transparent);backdrop-filter:blur(12px)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:70px;color:#fff;gap:1rem}
+.logo{font-family:var(--d);font-weight:800;font-size:1.6rem;display:flex;gap:.5rem;align-items:center}
+.logo i{width:18px;height:18px;border-radius:50%;border:4px solid var(--m);position:relative}
+.logo i::after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;top:-6px;right:-5px}
+nav ul{display:flex;gap:1.6rem;list-style:none}nav a{font-size:.93rem;font-weight:500;color:#CBCDEB}nav a:hover,nav a.on{color:#fff}
+.act{display:flex;gap:.6rem;align-items:center}.act .btn{padding:.55rem 1.1rem;font-size:.9rem}
+.ic{background:rgba(255,255,255,.1);border:0;border-radius:10px;width:40px;height:40px;color:#fff;font-size:1.1rem}
+#mb{display:none}
+.hero{background:radial-gradient(900px 500px at 85% 0,#3b2a99,transparent 60%),radial-gradient(700px 400px at 0 100%,#0c5a52,transparent 60%),var(--hero);color:#fff;padding:140px 0 90px}
+.hg{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+.pill{display:inline-block;background:rgba(24,214,165,.15);color:var(--m);padding:.3rem .9rem;border-radius:99px;font-size:.85rem;font-weight:700;margin-bottom:1.2rem}
+.hero h1{font-size:clamp(2.6rem,6vw,4.8rem);font-weight:800}.hero p{color:#C3C6EA;font-size:1.15rem;margin:1.3rem 0 1.8rem;max-width:46ch}
+.cap{display:flex;gap:.5rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:.4rem;border-radius:14px;max-width:470px}
+.cap input{flex:1;background:none;border:0;color:#fff;padding:.5rem .8rem;font:inherit;min-width:0}.cap input:focus{outline:none}
+.hl{display:flex;gap:1rem;margin-top:1.2rem;align-items:center;flex-wrap:wrap;color:#AEB2DE;font-size:.9rem}
+.dash{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:22px;padding:1.5rem;backdrop-filter:blur(8px);animation:fl 6s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-10px)}}
+.dots span{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;background:#ff6b6b}.dots span:nth-child(2){background:#ffd166}.dots span:nth-child(3){background:var(--m)}
+.big{font-family:var(--d);font-size:3.2rem;font-weight:800;margin-top:1rem;line-height:1}.lab{color:#AEB2DE;font-size:.9rem}
+.bars{display:flex;gap:6px;align-items:end;height:120px;margin:1.2rem 0}.bars b{flex:1;background:linear-gradient(var(--m),var(--v));border-radius:6px 6px 0 0;transition:height .8s}
+.fe{display:flex;justify-content:space-between;font-size:.88rem;padding:.55rem 0;border-top:1px solid rgba(255,255,255,.12)}.fe em{color:var(--m);font-style:normal}
+section{padding:96px 0}.logos{padding:36px 0;border-bottom:1px solid var(--line)}
+.lg{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;font-family:var(--d);font-weight:800;font-size:1.3rem;color:var(--mute);opacity:.7}
+.tabs{display:flex;gap:.5rem;margin:2rem 0;flex-wrap:wrap}.tabs button{background:var(--card);border:1.5px solid var(--line);border-radius:99px;padding:.6rem 1.3rem;font-weight:700}
+.tabs button[aria-selected=true]{background:var(--v);border-color:var(--v);color:#fff}
+.tp{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:2.5rem}
+.tp h3{font-size:1.9rem}.tp ul{list-style:none;margin:1.2rem 0}.tp li{padding:.3rem 0 .3rem 1.8rem;position:relative}.tp li::before{content:"✓";position:absolute;left:0;color:var(--m);font-weight:800}
+.vis{height:240px;border-radius:18px;background:linear-gradient(135deg,var(--v),#2a1d7a);display:grid;place-items:center;font-size:4.5rem}
+.st{background:var(--hero);color:#fff;padding:70px 0}.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2rem}
+.sg b{display:block;font-family:var(--d);font-size:clamp(2.4rem,5vw,3.6rem);color:var(--m);line-height:1}.sg span{color:#AEB2DE}
+.tg{display:flex;align-items:center;gap:.8rem;margin-top:1.8rem;font-weight:700}
+.sw{width:54px;height:30px;border-radius:99px;border:0;background:var(--v);position:relative}.sw::after{content:"";position:absolute;top:4px;left:4px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.25s}
+.sw[aria-checked=true]::after{left:28px}.sv{background:rgba(24,214,165,.18);color:#0a9873;padding:.15rem .6rem;border-radius:99px;font-size:.8rem}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:2.2rem}
+.pc{background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:2rem;display:flex;flex-direction:column}
+.pc.f{border-color:var(--v);box-shadow:0 18px 50px rgba(108,76,241,.22)}.pc .n{font-family:var(--d);font-size:3rem;font-weight:800;margin:.6rem 0}.pc .n small{font-size:1rem;color:var(--mute);font-family:var(--b);font-weight:500}
+.pc ul{list-style:none;margin:1rem 0 1.6rem;flex:1}.pc li{padding:.25rem 0;color:var(--mute)}.pc li::before{content:"✓ ";color:var(--m);font-weight:800}
+.sl{overflow:hidden;margin-top:2rem}.tr{display:flex;transition:transform .5s}.sd{min-width:100%;padding:2.2rem;background:var(--card);border:1px solid var(--line);border-radius:22px}
+.sd blockquote{font-family:var(--d);font-size:clamp(1.3rem,2.6vw,1.9rem);line-height:1.3}.sd cite{display:block;margin-top:1.2rem;font-style:normal;color:var(--mute)}
+.ct{display:flex;gap:.6rem;align-items:center;margin-top:1.2rem}.ct .ic{background:var(--card);border:1px solid var(--line);color:var(--ink)}
+.dt{width:10px;height:10px;border-radius:50%;border:0;background:var(--line)}.dt.on{background:var(--v);width:26px;border-radius:9px}
+.fq{max-width:780px;margin-top:2rem}.fi{border-bottom:1px solid var(--line)}.fi button{width:100%;background:none;border:0;text-align:left;padding:1.2rem 0;font-weight:700;font-size:1.05rem;display:flex;justify-content:space-between}
+.fi button::after{content:"+";font-size:1.5rem;color:var(--v);transition:.25s}.fi button[aria-expanded=true]::after{transform:rotate(45deg)}
+.fa{max-height:0;overflow:hidden;transition:max-height .35s;color:var(--mute)}.fa p{padding:0 0 1.2rem}
+.cta{background:linear-gradient(135deg,var(--v),#3a2a9e);color:#fff;border-radius:28px;padding:3.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.cta .sub{color:#DAD5FF}form{display:grid;gap:.8rem}
+input,select,textarea{font:inherit;width:100%;padding:.8rem 1rem;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
+textarea{min-height:100px;resize:vertical}input:focus,select:focus,textarea:focus{outline:none;border-color:var(--m)}
+.er{color:#ff9d9d;font-size:.82rem;min-height:1em}.cta .er{color:#ffd0d0}
+footer{background:var(--hero);color:#AEB2DE;padding:60px 0 30px}.fg{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:2rem}
+footer h4{color:#fff;margin-bottom:.8rem}footer li{list-style:none;padding:.2rem 0}footer a:hover{color:var(--m)}
+.fb{display:flex;justify-content:space-between;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap;gap:1rem;font-size:.9rem}
+.so button{background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:10px;padding:.4rem .8rem;margin-right:.4rem}
+#up{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;border:0;background:var(--v);color:#fff;font-size:1.2rem;opacity:0;pointer-events:none;transition:.3s;z-index:40}#up.s{opacity:1;pointer-events:auto}
+#toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,120px);background:var(--ink);color:var(--bg);padding:.8rem 1.4rem;border-radius:12px;font-weight:700;transition:.35s;z-index:120;max-width:90%}#toast.s{transform:translate(-50%,0)}
+#ov{position:fixed;inset:0;background:rgba(5,6,20,.7);backdrop-filter:blur(4px);display:none;place-items:center;z-index:100;padding:1rem}#ov.s{display:grid}
+.md{background:var(--card);border-radius:22px;padding:2rem;width:min(440px,100%);position:relative;animation:pop .25s}@keyframes pop{from{transform:scale(.93);opacity:0}}
+.md h3{font-size:1.7rem;margin-bottom:.3rem}.md .x{position:absolute;right:14px;top:14px;background:var(--bg);border:0;width:34px;height:34px;border-radius:50%}
+.md .er{color:#d33}.tour{height:150px;border-radius:14px;background:linear-gradient(135deg,var(--v),#2a1d7a);display:grid;place-items:center;font-size:4rem;margin:1rem 0}
+@media(max-width:900px){nav{position:absolute;top:70px;left:0;right:0;background:var(--hero);display:none;padding:1rem 4%}nav.o{display:block}nav ul{flex-direction:column}#mb{display:block}
+.hg,.tp,.cta{grid-template-columns:1fr}.fg{grid-template-columns:1fr 1fr}.act .btn.g{display:none}section{padding:68px 0}.cta{padding:2rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<header id="hd"><div class="w nav">
+<a href="#top" class="logo"><i></i>Orbit</a>
+<nav id="nv" aria-label="Main"><ul>
+<li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#stories">Stories</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul></nav>
+<div class="act"><button class="ic" id="th" aria-label="Toggle dark mode">🌙</button><button class="btn g" style="color:#fff;border-color:rgba(255,255,255,.3)" data-m="login">Log in</button><button class="btn m" data-m="signup">Get started</button><button class="ic" id="mb" aria-label="Menu">☰</button></div>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="w hg">
+<div><span class="pill">New · Orbit AI workflows are live</span>
+<h1>Automate the busywork. Ship the good stuff.</h1>
+<p>Orbit connects the tools your team already uses and runs the repetitive work for you, from lead routing to weekly reports.</p>
+<form class="cap" id="cf" novalidate><input id="ce" type="email" placeholder="Your work email" aria-label="Work email"><button class="btn m">Start free</button></form>
+<div class="er" id="cer"></div>
+<div class="hl"><button class="btn g" style="color:#fff;border-color:rgba(255,255,255,.3)" data-m="demo">▶ Take the 1-minute tour</button><span>No credit card · 14-day Growth trial</span></div></div>
+<div class="dash" aria-label="Live dashboard preview"><div class="dots"><span></span><span></span><span></span></div>
+<div class="big" id="live">12,480</div><div class="lab">tasks automated today</div>
+<div class="bars" id="bars"></div>
+<div class="fe"><span>Slack → CRM sync</span><em>Running</em></div><div class="fe"><span>Weekly revenue report</span><em>Sent 9:00</em></div><div class="fe"><span>Invoice reminders</span><em>Running</em></div></div>
+</div></section>
+
+<div class="logos"><div class="w lg"><span>Brightline</span><span>Kiteworks</span><span>Northpeak</span><span>Lumio</span><span>Fernway</span></div></div>
+
+<section id="features"><div class="w">
+<h2>One platform. Three superpowers.</h2><p class="sub">Pick a capability to see how Orbit fits into your week.</p>
+<div class="tabs" role="tablist" id="tabs"></div>
+<div class="tp" id="tp" role="tabpanel"></div></div></section>
+
+<div class="st"><div class="w sg">
+<div><b data-to="4200" data-s="+">0</b><span>teams on Orbit</span></div><div><b data-to="38" data-s="M">0</b><span>tasks automated monthly</span></div>
+<div><b data-to="11" data-s="h">0</b><span>saved per person each week</span></div><div><b data-to="99.99" data-s="%" data-d="2">0</b><span>platform uptime</span></div></div></div>
+
+<section id="pricing"><div class="w">
+<h2>Simple pricing that scales with you</h2><p class="sub">Start free. Upgrade when your team is ready.</p>
+<div class="tg"><span>Monthly</span><button class="sw" id="sw" role="switch" aria-checked="false" aria-label="Bill yearly"></button><span>Yearly <em class="sv">Save 20%</em></span></div>
+<div class="pg" id="pg"></div></div></section>
+
+<section id="stories" style="padding-top:0"><div class="w">
+<h2>Teams that got their time back</h2>
+<div class="sl"><div class="tr" id="tr"></div></div>
+<div class="ct"><button class="ic" id="pv" aria-label="Previous story">←</button><button class="ic" id="nx" aria-label="Next story">→</button><span id="dts" style="display:flex;gap:.4rem;align-items:center;margin-left:.6rem"></span></div></div></section>
+
+<section id="faq" style="padding-top:0"><div class="w"><h2>Questions, answered</h2><div class="fq" id="fq"></div></div></section>
+
+<section id="contact" style="padding-top:0"><div class="w"><div class="cta">
+<div><h2>Let’s automate something together</h2><p class="sub">Tell us about your team. A product specialist replies within one business day.</p></div>
+<form id="ff" novalidate><input id="fn" placeholder="Your name" aria-label="Name"><div class="er" data-e="fn"></div>
+<input id="fe" type="email" placeholder="Work email" aria-label="Email"><div class="er" data-e="fe"></div>
+<select id="fs" aria-label="Topic"><option>Book a demo</option><option>Pricing question</option><option>Partnership</option><option>Support</option></select>
+<textarea id="fm" placeholder="What would you like to automate?" aria-label="Message"></textarea><div class="er" data-e="fm"></div>
+<button class="btn m">Send message</button></form></div></div></section>
+</main>
+
+<footer><div class="w"><div class="fg">
+<div><div class="logo" style="color:#fff"><i></i>Orbit</div><p style="margin:.8rem 0">Workflow automation for teams that would rather build than babysit.</p>
+<div class="so"><button data-t="X">𝕏</button><button data-t="LinkedIn">in</button><button data-t="GitHub">GH</button></div></div>
+<div><h4>Product</h4><ul><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+<div><h4>Company</h4><ul><li><a href="#stories">Customers</a></li><li><a href="#contact">Contact</a></li><li><a href="#top">Back to top</a></li></ul></div>
+<div><h4>Stay in the loop</h4><form id="nl" novalidate style="gap:.5rem"><input id="ne" type="email" placeholder="you@company.com" aria-label="Newsletter email"><button class="btn p">Subscribe</button></form></div></div>
+<div class="fb"><span>© <span id="yr"></span> Orbit Labs, Inc.</span><span>Made in Bengaluru</span></div></div></footer>
+
+<button id="up" aria-label="Back to top">↑</button><div id="toast" role="status"></div>
+<div id="ov"><div class="md" role="dialog" aria-modal="true" id="md"></div></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],ok=e=>/^\S+@\S+\.\S+$/.test(e);
+const toast=t=>{const e=$('#toast');e.textContent=t;e.classList.add('s');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('s'),2800)};
+$('#yr').textContent=new Date().getFullYear();
+// theme
+const th=$('#th'),setT=t=>{document.documentElement.dataset.theme=t;th.textContent=t=='dark'?'☀️':'🌙'};
+try{setT(localStorage.getItem('t')||'light')}catch(e){}
+th.onclick=()=>{const t=document.documentElement.dataset.theme=='dark'?'light':'dark';setT(t);try{localStorage.setItem('t',t)}catch(e){}};
+// scroll: header, progress, back-to-top, active link
+const secs=$$('main section[id]'),lk=$$('nav a');
+addEventListener('scroll',()=>{const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;
+$('#hd').classList.toggle('s',y>40);$('#up').classList.toggle('s',y>600);$('#bar').style.width=(y/h*100)+'%';
+let c='';secs.forEach(s=>{if(y+120>=s.offsetTop)c=s.id});lk.forEach(a=>a.classList.toggle('on',a.getAttribute('href')=='#'+c))},{passive:true});
+$('#up').onclick=()=>scrollTo({top:0});
+$('#mb').onclick=()=>$('#nv').classList.toggle('o');lk.forEach(a=>a.onclick=()=>$('#nv').classList.remove('o'));
+// hero dashboard
+const bars=$('#bars');for(let i=0;i<12;i++)bars.innerHTML+='<b style="height:30%"></b>';
+let n=12480;const tick=()=>{$$('#bars b').forEach(b=>b.style.height=(25+Math.random()*75)+'%');n+=Math.floor(Math.random()*40+5);$('#live').textContent=n.toLocaleString()};
+tick();setInterval(tick,2200);
+// features tabs
+const F=[['⚡ Automate','Workflows that run themselves','Build once, then let Orbit handle every repeat.',['200+ app integrations','Drag-and-drop builder','Instant retries on failure'],'⚡'],
+['📊 Analyze','Answers without the spreadsheet','Live dashboards update as your work happens.',['Custom KPIs in minutes','Scheduled email reports','Export to CSV or Sheets'],'📊'],
+['🤝 Collaborate','One shared view for the whole team','Everyone sees what ran, what failed and why.',['Comments on any workflow','Role-based permissions','Full audit history'],'🤝']];
+F.forEach((f,i)=>{const b=document.createElement('button');b.textContent=f[0];b.role='tab';b.onclick=()=>tab(i);$('#tabs').append(b)});
+function tab(i){$$('#tabs button').forEach((b,j)=>b.setAttribute('aria-selected',i==j));const f=F[i];
+$('#tp').innerHTML=`<div><h3>${f[1]}</h3><p class="sub">${f[2]}</p><ul>${f[3].map(x=>`<li>${x}</li>`).join('')}</ul><button class="btn p" data-m="signup">Try it free</button></div><div class="vis">${f[4]}</div>`}
+tab(0);
+// counters
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const el=e.target,to=+el.dataset.to,d=+(el.dataset.d||0),t0=performance.now();
+const r=t=>{const k=Math.min((t-t0)/1500,1);el.textContent=(to*(1-Math.pow(1-k,3))).toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g,',')+el.dataset.s;if(k<1)requestAnimationFrame(r)};requestAnimationFrame(r)}),{threshold:.6});
+$$('[data-to]').forEach(e=>io.observe(e));
+// pricing
+const P=[['Starter',0,0,['3 workflows','1,000 tasks / month','Community support']],['Growth',29,24,['Unlimited workflows','50,000 tasks / month','Orbit AI assistant','Priority support']],['Scale',79,65,['Everything in Growth','Unlimited tasks','SSO &amp; audit logs','Dedicated manager']]];
+let yr=false;function pr(){$('#pg').innerHTML=P.map((p,i)=>`<div class="pc ${i==1?'f':''}"><h3>${p[0]}${i==1?' <small class="sv">Popular</small>':''}</h3><div class="n">$${yr?p[2]:p[1]}<small> /user/mo</small></div><ul>${p[3].map(x=>`<li>${x}</li>`).join('')}</ul><button class="btn ${i==1?'p':'g'}" data-m="signup" data-p="${p[0]}">${p[1]?'Choose '+p[0]:'Start free'}</button></div>`).join('')}
+pr();$('#sw').onclick=e=>{yr=!yr;e.currentTarget.setAttribute('aria-checked',yr);pr()};
+// testimonials
+const T=[['“Orbit gave our ops team Fridays back. Reports that took half a day now send themselves.”','Priya Nair, CTO at Brightline'],['“We replaced nine separate scripts with one workflow. Nothing has broken since.”','Marco Silva, Head of Ops at Kiteworks'],['“Onboarding took an afternoon. Our sales team was routing leads automatically by evening.”','Ananya Rao, RevOps at Northpeak']];
+let si=0;$('#tr').innerHTML=T.map(t=>`<div class="sd"><blockquote>${t[0]}</blockquote><cite>${t[1]}</cite></div>`).join('');
+$('#dts').innerHTML=T.map((_,i)=>`<button class="dt" aria-label="Story ${i+1}"></button>`).join('');
+function go(i){si=(i+T.length)%T.length;$('#tr').style.transform=`translateX(-${si*100}%)`;$$('.dt').forEach((d,j)=>d.classList.toggle('on',j==si))}
+$$('.dt').forEach((d,i)=>d.onclick=()=>go(i));$('#pv').onclick=()=>go(si-1);$('#nx').onclick=()=>go(si+1);go(0);setInterval(()=>go(si+1),7000);
+// faq
+const Q=[['Is there a free plan?','Yes. Starter is free forever for up to 3 workflows and 1,000 tasks a month.'],['How long does setup take?','Most teams connect their first tool and run a workflow in under 15 minutes.'],['Can I cancel anytime?','Yes. Cancel from your settings and keep access until the end of the billing period.'],['Is my data secure?','Orbit is SOC 2 Type II compliant, encrypts data in transit and at rest, and offers SSO on Scale.']];
+$('#fq').innerHTML=Q.map(q=>`<div class="fi"><button aria-expanded="false">${q[0]}</button><div class="fa"><p>${q[1]}</p></div></div>`).join('');
+$$('.fi button').forEach(b=>b.onclick=()=>{const o=b.getAttribute('aria-expanded')=='true';
+$$('.fi button').forEach(x=>{x.setAttribute('aria-expanded',false);x.nextElementSibling.style.maxHeight=0});
+if(!o){b.setAttribute('aria-expanded',true);b.nextElementSibling.style.maxHeight=b.nextElementSibling.scrollHeight+'px'}});
+// modal
+const ov=$('#ov'),md=$('#md');let tour=0;
+const steps=[['🔌','Connect your tools','Link Slack, your CRM and email in a few clicks.'],['🧩','Build a workflow','Drag triggers and actions onto the canvas.'],['🚀','Go live','Switch it on and watch tasks run on their own.']];
+function modal(k,plan){
+const x='<button class="x" aria-label="Close" data-x>✕</button>';
+if(k=='demo'){const s=steps[tour];md.innerHTML=`${x}<h3>Product tour</h3><div class="tour">${s[0]}</div><h4>${s[1]}</h4><p class="sub" style="margin:.3rem 0 1.2rem">${s[2]}</p><div style="display:flex;gap:.6rem;justify-content:space-between"><button class="btn g" data-tp ${tour?'':'disabled style="opacity:.4"'}>Back</button><button class="btn p" data-tn>${tour==2?'Get started':'Next ('+(tour+1)+'/3)'}</button></div>`;}
+else{const su=k=='signup';md.innerHTML=`${x}<h3>${su?'Create your account':'Welcome back'}</h3><p class="sub" style="margin:.2rem 0 1rem">${su?(plan?plan+' plan selected. ':'')+'Free for 14 days.':'Log in to your Orbit workspace.'}</p><form id="mf" novalidate><input id="me" type="email" placeholder="Work email" aria-label="Email"><div class="er" id="e1"></div><input id="mp" type="password" placeholder="Password (8+ characters)" aria-label="Password"><div class="er" id="e2"></div><button class="btn p">${su?'Create account':'Log in'}</button><button type="button" class="btn g" data-sw="${su?'login':'signup'}">${su?'I already have an account':'Create a new account'}</button></form>`;
+$('#mf').onsubmit=e=>{e.preventDefault();const a=ok($('#me').value.trim()),b=$('#mp').value.length>=8;$('#e1').textContent=a?'':'Enter a valid email address.';$('#e2').textContent=b?'':'Password must be at least 8 characters.';if(a&&b){close();toast(su?'Account created. Welcome to Orbit!':'Logged in. Welcome back!')}}}
+ov.classList.add('s');(md.querySelector('input,button.btn')||md).focus()}
+const close=()=>ov.classList.remove('s');
+document.addEventListener('click',e=>{const t=e.target.closest('button,[data-m]');if(!t)return;
+if(t.dataset.m){tour=0;modal(t.dataset.m,t.dataset.p)}
+else if(t.dataset.sw)modal(t.dataset.sw);
+else if('x' in t.dataset)close();
+else if('tn' in t.dataset){if(tour==2){tour=0;modal('signup')}else{tour++;modal('demo')}}
+else if('tp' in t.dataset&&tour){tour--;modal('demo')}
+else if(t.dataset.t)toast('Opening our '+t.dataset.t+' page (demo link)')});
+ov.addEventListener('click',e=>{if(e.target==ov)close()});addEventListener('keydown',e=>{if(e.key=='Escape')close()});
+// forms
+$('#cf').onsubmit=e=>{e.preventDefault();const v=$('#ce').value.trim();$('#cer').textContent=ok(v)?'':'Enter a valid work email, like you@company.com.';$('#cer').style.color='#ffb4b4';if(ok(v)){$('#ce').value='';toast('You’re in! Check '+v+' to finish setup.')}};
+$('#nl').onsubmit=e=>{e.preventDefault();const v=$('#ne').value.trim();if(ok(v)){$('#ne').value='';toast('Subscribed. Thanks for joining!')}else toast('Enter a valid email address.')};
+$('#ff').onsubmit=e=>{e.preventDefault();const c={fn:$('#fn').value.trim().length>1,fe:ok($('#fe').value.trim()),fm:$('#fm').value.trim().length>=10},m={fn:'Enter your name.',fe:'Enter a valid email address.',fm:'Write at least 10 characters.'};
+Object.keys(c).forEach(k=>$(`[data-e=${k}]`).textContent=c[k]?'':m[k]);if(c.fn&&c.fe&&c.fm){e.target.reset();toast('Message sent. We’ll reply within one business day.')}};
+</script>
+</body>
+</html>
